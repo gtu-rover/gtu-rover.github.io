@@ -26,6 +26,10 @@ i18n
     resources,
     fallbackLng,
 
+    react: { 
+      useSuspense: false //   <---- this will do the magic
+    },
+
     detection: {
       checkWhitelist: true
     },
