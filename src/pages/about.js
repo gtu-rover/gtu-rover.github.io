@@ -1,9 +1,5 @@
-import Cards from '../components/Cards';
 import Footer from '../components/Footer';
-import Header from '../components/Header';
 import Navbar from '../components/Navbar';
-import SocialMedia from '../components/SocialMedia';
-import Sponsors from '../components/Sponsors';
 import { SeperatorDown } from '../components/seperators';
 import TeamDescription from '../components/TeamDescription';
 import { useTranslation } from 'react-i18next';

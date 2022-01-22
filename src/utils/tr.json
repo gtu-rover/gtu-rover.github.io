@@ -46,5 +46,9 @@
   "sponsorship team description": "Firmalar ile görüşmeler gerçekleştirerek sponsorluk sağlanmasından, sosyal medya platformlarında takımın daha geniş kitlelere duyurulması için paylaşımlar yapılmasindan ve ekibin tanıtılmasına yönelik tasarımlar yapıp içerik üretilmesinden sorumludur.",
   "mechanical team": "Mekanik Ekibi",
   "mechanical team description": "Yarışmanın parametrelerine uygun olarak roverın şasi, süspansiyon, tekerlekler gibi kısımlarını içeren yürür sistemini, robotik kolunu ve bilim görevi için toprak örneği alma platformunu tasarlamanın yanısıra üretiminden ve de ekstrem koşullarda görevlerini yerine getirebilirliğini test etmekten sorumludur.",
-  "our purpose description": "Amacımız, URC/ERC yarışmalarının parametrelerine uygun bir robot tasarlayıp üretmenin yanısıra; gelecek nesil multidisipliner, özverili mühendis ve bilim insanları yetişmesinde, eğitim ve araştırma dünyasında bölgede inovasyonu arttırmakta öncü rol oynamaktır."
+  "our purpose description": "Amacımız, URC/ERC yarışmalarının parametrelerine uygun bir robot tasarlayıp üretmenin yanısıra; gelecek nesil multidisipliner, özverili mühendis ve bilim insanları yetişmesinde, eğitim ve araştırma dünyasında bölgede inovasyonu arttırmakta öncü rol oynamaktır.",
+
+  "members": "Üyeler",
+  "team advisor": "Takım Danışmanı",
+  "assistant professor": "Dr. Öğr. Üyesi"
 }
