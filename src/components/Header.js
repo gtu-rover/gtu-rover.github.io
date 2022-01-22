@@ -7,7 +7,7 @@ const NavItem = ({ image, text, link }) => {
       <a href={link}>
         <img class="first-div-icon" src={image} />
       </a>
-      <a class="index-first-div-linked" href="/members">
+      <a class="index-first-div-linked" href={link}>
         <h4 class="h3-first-div-2">{text}</h4>
       </a>
     </div>
