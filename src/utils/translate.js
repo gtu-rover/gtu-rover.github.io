@@ -27,7 +27,7 @@ i18n
     fallbackLng,
 
     react: { 
-      useSuspense: false //   <---- this will do the magic
+      useSuspense: false
     },
 
     detection: {
