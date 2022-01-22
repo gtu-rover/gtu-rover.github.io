@@ -4,7 +4,7 @@ const Navbar = () => {
   return (
     <div>
       <nav class="navbar navbar-light fixed-top">
-        <a class="navbar-brand" href="{{ page.home }}">
+        <a class="navbar-brand" href="/">
           <img id="navbar-img1" src="/images/logo/logo.png" alt="" />
         </a>
 
