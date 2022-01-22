@@ -17,6 +17,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-i18next": "^11.15.3",
+    "react-router-dom": "6",
     "react-scripts": "5.0.0",
     "react-scroll-wheel-handler": "^2.1.0",
     "style-it": "^2.1.4",
