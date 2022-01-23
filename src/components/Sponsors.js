@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Style from 'style-it';
 import ReactScrollWheelHandler from 'react-scroll-wheel-handler';
 import { useTranslation } from 'react-i18next';
@@ -17,146 +17,146 @@ import { Label, Input } from '@rebass/forms';
 import { Box, Button } from 'rebass';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-const sponsors = [
-  {
-    main: [
-      {
-        image: 'ulker.svg',
-        link: null,
-        css: 'img { width: 50% !important; margin: 50px; }'
-      }
-    ]
-  },
-  {
-    workshop: [
-      {
-        image: 'starcelik.jpg',
-        link: 'https://www.starcelik.com.tr/',
-        css: 'width: 40%'
-      }
-    ]
-  },
-  {
-    platinum: null
-  },
-  {
-    gold: [
-      {
-        image: 'gunes_dinamik.png',
-        link: 'https://www.gunesdinamik.com/',
-        css: 'width: 15%'
-      },
-      {
-        image: 'imc.png',
-        link: 'https://www.linkedin.com/in/imc-m%C3%BChendislik-ve-dani%C5%9Fmanlik-100069179/?originalSubdomain=tr',
-        css: 'width: 20%'
-      },
-      {
-        image: 'gtu-logo.png',
-        link: 'https://www.gtu.edu.tr',
-        css: 'width: 22%'
-      },
-      {
-        image: 'uskudar.png',
-        link: null,
-        css: 'width: 15%'
-      },
-      {
-        image: 'derincebel.png',
-        link: null,
-        css: 'width: 15%'
-      },
-      {
-        image: 'korfezbel.png',
-        link: null,
-        css: 'width: 15%'
-      }
-    ]
-  },
-  {
-    silver: [
-      {
-        image: 'autodesk.png',
-        link: 'https://www.autodesk.com.tr/',
-        css: 'width: 30%'
-      },
-      {
-        image: 'dekup.png',
-        link: 'https://dekuprobotics.com/',
-        css: 'width: 23% !important; padding-bottom: 15px;'
-      },
-      {
-        image: 'cadcut-logo.svg',
-        link: 'https://cadcut.co/en/',
-        css: 'width: 23% !important; padding-bottom: 15px;'
-      }
-    ]
-  },
-  {
-    bronze: [
-      {
-        image: 'kartal.png',
-        link: 'https://www.kartalotomasyon.com.tr/',
-        css: 'width: 20%'
-      },
-      {
-        image: 'ctech.png',
-        link: 'https://ctech.com.tr/tr',
-        css: 'width: 20%'
-      },
-      {
-        image: 'tto.png',
-        link: 'http://tto.gtu.edu.tr',
-        css: 'width: 20%'
-      }
-    ]
-  },
-  {
-    supporters: [
-      {
-        image: 'ttaf.png',
-        link: 'https://www.ttaf.com.tr/',
-        css: null
-      },
-      {
-        image: 'ac.png',
-        link: 'https://www.actasarim.com.tr/',
-        css: null
-      },
-      {
-        image: 'porima-renkli.png',
-        link: 'https://www.porima3d.com',
-        css: null
-      },
-      {
-        image: 'altinkaya.png',
-        link: 'https://www.altinkaya.com.tr/',
-        css: null
-      },
-      {
-        image: 'robotsepeti.jfif',
-        link: 'https://www.robotsepeti.com/',
-        css: null
-      },
-      {
-        image: 'empa-store.png',
-        link: 'https://www.empastore.com/',
-        css: 'width: 22%'
-      },
-      {
-        image: 'aycan-makina.png',
-        link: null,
-        css: 'width: 22%'
-      }
-    ]
-  }
-];
+// const sponsors = [
+//   {
+//     main: [
+//       {
+//         image: 'ulker.svg',
+//         link: null,
+//         css: 'img { width: 50% !important; margin: 50px; }'
+//       }
+//     ]
+//   },
+//   {
+//     workshop: [
+//       {
+//         image: 'starcelik.jpg',
+//         link: 'https://www.starcelik.com.tr/',
+//         css: 'width: 40%'
+//       }
+//     ]
+//   },
+//   {
+//     platinum: null
+//   },
+//   {
+//     gold: [
+//       {
+//         image: 'gunes_dinamik.png',
+//         link: 'https://www.gunesdinamik.com/',
+//         css: 'width: 15%'
+//       },
+//       {
+//         image: 'imc.png',
+//         link: 'https://www.linkedin.com/in/imc-m%C3%BChendislik-ve-dani%C5%9Fmanlik-100069179/?originalSubdomain=tr',
+//         css: 'width: 20%'
+//       },
+//       {
+//         image: 'gtu-logo.png',
+//         link: 'https://www.gtu.edu.tr',
+//         css: 'width: 22%'
+//       },
+//       {
+//         image: 'uskudar.png',
+//         link: null,
+//         css: 'width: 15%'
+//       },
+//       {
+//         image: 'derincebel.png',
+//         link: null,
+//         css: 'width: 15%'
+//       },
+//       {
+//         image: 'korfezbel.png',
+//         link: null,
+//         css: 'width: 15%'
+//       }
+//     ]
+//   },
+//   {
+//     silver: [
+//       {
+//         image: 'autodesk.png',
+//         link: 'https://www.autodesk.com.tr/',
+//         css: 'width: 30%'
+//       },
+//       {
+//         image: 'dekup.png',
+//         link: 'https://dekuprobotics.com/',
+//         css: 'width: 23% !important; padding-bottom: 15px;'
+//       },
+//       {
+//         image: 'cadcut-logo.svg',
+//         link: 'https://cadcut.co/en/',
+//         css: 'width: 23% !important; padding-bottom: 15px;'
+//       }
+//     ]
+//   },
+//   {
+//     bronze: [
+//       {
+//         image: 'kartal.png',
+//         link: 'https://www.kartalotomasyon.com.tr/',
+//         css: 'width: 20%'
+//       },
+//       {
+//         image: 'ctech.png',
+//         link: 'https://ctech.com.tr/tr',
+//         css: 'width: 20%'
+//       },
+//       {
+//         image: 'tto.png',
+//         link: 'http://tto.gtu.edu.tr',
+//         css: 'width: 20%'
+//       }
+//     ]
+//   },
+//   {
+//     supporters: [
+//       {
+//         image: 'ttaf.png',
+//         link: 'https://www.ttaf.com.tr/',
+//         css: null
+//       },
+//       {
+//         image: 'ac.png',
+//         link: 'https://www.actasarim.com.tr/',
+//         css: null
+//       },
+//       {
+//         image: 'porima-renkli.png',
+//         link: 'https://www.porima3d.com',
+//         css: null
+//       },
+//       {
+//         image: 'altinkaya.png',
+//         link: 'https://www.altinkaya.com.tr/',
+//         css: null
+//       },
+//       {
+//         image: 'robotsepeti.jfif',
+//         link: 'https://www.robotsepeti.com/',
+//         css: null
+//       },
+//       {
+//         image: 'empa-store.png',
+//         link: 'https://www.empastore.com/',
+//         css: 'width: 22%'
+//       },
+//       {
+//         image: 'aycan-makina.png',
+//         link: null,
+//         css: 'width: 22%'
+//       }
+//     ]
+//   }
+// ];
 
-const SponsorImage = ({ image, border = false, src = false }) => (
+const SponsorImage = ({ border, src }) => (
   <img
-    src={src || `/images/sponsors/${image}`}
+    src={src}
     style={border ? { border: '1px red solid' } : null}
-    class="img-sponsor-div2 img-first-div animate__animated animate__zoomIn"
+    className="img-sponsor-div2 img-first-div animate__animated animate__zoomIn"
   />
 );
 
@@ -172,15 +172,13 @@ const EditableImage = ({ defaultCss = 'img { }', ...rest }) => {
     console.log({ link });
 
     const list = collection(db, 'sponsors/main/list');
-    addDoc(list, {
-      image: imageUrl || '',
-      css: css,
-      link: link
-    });
+    // TODO: setDoc
+    // addDoc(list, {
+    //   image: imageUrl || '',
+    //   css: css,
+    //   link: link
+    // });
     // TODO: close modal
-
-    // const docs = await getDocs(query(list));
-    // docs.forEach((doc) => console .log(doc.data()));
 
     // const mainDoc = doc(db, 'sponsors', 'main');
     // console.log({ mainDoc });
@@ -191,7 +189,6 @@ const EditableImage = ({ defaultCss = 'img { }', ...rest }) => {
     //   state: 'CA',
     //   country: 'USA'
     // });
-    // TODO: save css db
   };
 
   const ModalBody = ({ css, setCss, link, setLink }) => {
@@ -240,7 +237,7 @@ const EditableImage = ({ defaultCss = 'img { }', ...rest }) => {
           )
         }
       >
-        <SponsorImage {...rest} editable border />
+        <SponsorImage {...rest} border />
       </a>
     </Style>
   );
@@ -283,12 +280,46 @@ const NewImage = () => {
   );
 };
 
+const fetchSponsors = async () => {
+  const sponsors = [];
+  const sponsorsRef = collection(db, 'sponsors');
+  const docs = await getDocs(query(sponsorsRef));
+  docs.forEach((sponsorGroupDoc) => {
+    sponsors.push({ [sponsorGroupDoc.id]: [] });
+  });
+
+  for (const s of sponsors) {
+    const group = Object.keys(s)[0];
+    const groupRef = collection(db, 'sponsors', group, 'list');
+    const docs = await getDocs(query(groupRef));
+    docs.forEach((sponsorData) => {
+      s[group].push(sponsorData.data());
+    });
+  }
+  // TODO: order
+  return sponsors;
+};
+
 const Sponsors = ({ editable = false }) => {
   const { t } = useTranslation();
+  const [sponsors, setSponsors] = useState([]);
+  console.log({ sponsors });
 
-  const sponsorList = sponsors.map((s) => {
+  useEffect(() => {
+    const getData = async () => {
+      const sponsorsFromDb = await fetchSponsors();
+      setSponsors(sponsorsFromDb);
+    };
+    getData();
+  }, []);
+
+  const sponsorList = sponsors?.map((s) => {
     const key = Object.keys(s)[0];
-    const group = s[key];
+    // const group = s[key];
+    const group = Object.values(s)[0];
+    // console.log(s);
+    // console.log(key);
+    // console.log(JSON.stringify(group));
     if (!group) return null;
     return (
       <>
@@ -299,14 +330,14 @@ const Sponsors = ({ editable = false }) => {
           <h1 class="text-center h1-fourth-div-2">{t([key])}</h1>
           {group.map((sponsor) =>
             editable ? (
-              <EditableImage defaultCss={sponsor.css} image={sponsor.image} />
+              <EditableImage defaultCss={sponsor.css} src={sponsor.image} />
             ) : (
               <a
                 class="text-center"
                 target="_blank"
                 href={`${sponsor.link || '#'}`}
               >
-                <SponsorImage editable image={sponsor.image} />
+                <SponsorImage border src={sponsor.image} />
               </a>
             )
           )}
