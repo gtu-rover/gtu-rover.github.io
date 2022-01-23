@@ -3,7 +3,7 @@ import { SeperatorDown, SeperatorUp, SeperatorUpWhite } from './seperators';
 import { useTranslation } from 'react-i18next';
 import IconButton from './Button/iconButton';
 
-const SocialMedia = () => {
+const SocialMedia = ({ editable }) => {
   const instaWidget = useRef(null);
   const { t } = useTranslation();
 

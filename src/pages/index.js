@@ -5,13 +5,13 @@ import Navbar from '../components/Navbar';
 import SocialMedia from '../components/SocialMedia';
 import Sponsors from '../components/Sponsors';
 
-const HomePage = () => (
+const HomePage = ({ editable = false }) => (
   <>
     <Navbar />
     <Header />
     <Cards />
     <SocialMedia />
-    <Sponsors />
+    <Sponsors editable={editable} />
     <Footer />
   </>
 );

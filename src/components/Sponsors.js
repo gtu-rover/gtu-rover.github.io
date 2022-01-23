@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Style from 'style-it';
 import ReactScrollWheelHandler from 'react-scroll-wheel-handler';
 import { useTranslation } from 'react-i18next';
+import { ModalContext } from './Modal/modalContext';
+import StyleEditor from 'react-style-editor';
 
 const sponsors = [
   {
@@ -9,7 +11,7 @@ const sponsors = [
       {
         image: 'ulker.svg',
         link: null,
-        css: 'width: 50% !important; margin: 50px;'
+        css: 'img { width: 50% !important; margin: 50px; }'
       }
     ]
   },
@@ -138,14 +140,78 @@ const sponsors = [
   }
 ];
 
-const Sponsors = () => {
+const SponsorImage = ({ image, border = false, src = false }) => (
+  <img
+    src={src || `/images/sponsors/${image}`}
+    style={border ? { border: '1px red solid' } : null}
+    class="img-sponsor-div2 img-first-div animate__animated animate__zoomIn"
+  />
+);
+
+const EditableImage = ({ defaultCss, ...rest }) => {
+  let { handleModal } = React.useContext(ModalContext);
+  const [css, setCss] = useState(defaultCss);
+  const imageUrl = rest?.src;
+
+  const saveCss = () => {
+    console.log({ imageUrl });
+    // TODO: save css db
+  };
+
+  const ModalBody = ({ css }) => {
+    return (
+      <>
+        <StyleEditor
+          defaultValue={css}
+          onChange={(updatedCss) => setCss(updatedCss)}
+        />
+        <button onClick={saveCss} style={{ float: 'right', margin: 5 }}>
+          save
+        </button>
+      </>
+    );
+  };
+
+  return (
+    <Style>
+      {css || ''}
+      <a
+        class="text-center"
+        onClick={() => handleModal(<ModalBody css={css} />)}
+      >
+        <SponsorImage {...rest} editable border />
+      </a>
+    </Style>
+  );
+};
+
+const NewImage = () => {
+  const [file, setFile] = useState();
+  const [imageUrl, setFImageUrl] = useState(false);
+  const onFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  useEffect(() => {
+    if (file) setFImageUrl(URL.createObjectURL(file));
+  }, [file]);
+
+  return (
+    <>
+      {imageUrl && <EditableImage defaultCss={'img { }'} src={imageUrl} />}
+      <div>
+        <input type="file" accept="image/*" onChange={onFileChange} />
+      </div>
+    </>
+  );
+};
+
+const Sponsors = ({ editable = false }) => {
   const { t } = useTranslation();
 
   const sponsorList = sponsors.map((s) => {
     const key = Object.keys(s)[0];
     const group = s[key];
-    console.log({ group });
-    console.log({ key });
     if (!group) return null;
     return (
       <>
@@ -154,32 +220,20 @@ const Sponsors = () => {
           style={{ marginTop: 40, marginBottom: 40 }}
         >
           <h1 class="text-center h1-fourth-div-2">{t([key])}</h1>
-          {group.map((sponsor) => (
-            <Style>
-              {`img { ${sponsor.css || ''} !important }`}
+          {group.map((sponsor) =>
+            editable ? (
+              <EditableImage defaultCss={sponsor.css} image={sponsor.image} />
+            ) : (
               <a
                 class="text-center"
                 target="_blank"
                 href={`${sponsor.link || '#'}`}
               >
-                {/* <ReactScrollWheelHandler
-                  upHandler={(e) => console.log('scroll up')}
-                  downHandler={(e) => console.log('scroll down')}
-                  style={{
-                    display: 'inline'
-                  }}
-                  preventScroll
-                > */}
-                <img
-                  // style={{ border: '1px solid red' }}
-                  onMouseHover={() => {}}
-                  src={`/images/sponsors/${sponsor.image}`}
-                  class="img-sponsor-div2 img-first-div animate__animated animate__zoomIn"
-                />
-                {/* </ReactScrollWheelHandler> */}
+                <SponsorImage editable image={sponsor.image} />
               </a>
-            </Style>
-          ))}
+            )
+          )}
+          {editable && <NewImage />}
         </div>
         <hr style={{ borderWidth: 2 }} />
       </>
@@ -203,3 +257,14 @@ const Sponsors = () => {
 };
 
 export default Sponsors;
+
+// <ReactScrollWheelHandler
+//   upHandler={(e) => console.log('scroll up')}
+//   downHandler={(e) => console.log('scroll down')}
+//   style={{
+//     display: 'inline'
+//   }}
+//   preventScroll
+// >
+//   <SponsorImage image={sponsor.image} />
+// </ReactScrollWheelHandler>
