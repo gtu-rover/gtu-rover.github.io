@@ -4,6 +4,18 @@ import ReactScrollWheelHandler from 'react-scroll-wheel-handler';
 import { useTranslation } from 'react-i18next';
 import { ModalContext } from './Modal/modalContext';
 import StyleEditor from 'react-style-editor';
+import {
+  doc,
+  setDoc,
+  collection,
+  getDocs,
+  query,
+  addDoc
+} from 'firebase/firestore';
+import { db } from '../utils/firebase';
+import { Label, Input } from '@rebass/forms';
+import { Box, Button } from 'rebass';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const sponsors = [
   {
@@ -148,26 +160,66 @@ const SponsorImage = ({ image, border = false, src = false }) => (
   />
 );
 
-const EditableImage = ({ defaultCss, ...rest }) => {
+const EditableImage = ({ defaultCss = 'img { }', ...rest }) => {
   let { handleModal } = React.useContext(ModalContext);
   const [css, setCss] = useState(defaultCss);
+  const [link, setLink] = useState('');
   const imageUrl = rest?.src;
 
-  const saveCss = () => {
+  const saveCss = async () => {
     console.log({ imageUrl });
+    console.log({ css });
+    console.log({ link });
+
+    const list = collection(db, 'sponsors/main/list');
+    addDoc(list, {
+      image: imageUrl || '',
+      css: css,
+      link: link
+    });
+    // TODO: close modal
+
+    // const docs = await getDocs(query(list));
+    // docs.forEach((doc) => console .log(doc.data()));
+
+    // const mainDoc = doc(db, 'sponsors', 'main');
+    // console.log({ mainDoc });
+    // const list = mainDoc.collection('list').get();
+    // console.log({ list });
+    // await setDoc(doc(db, 'sponsors', 'main'), {
+    //   name: 'Los Angeles',
+    //   state: 'CA',
+    //   country: 'USA'
+    // });
     // TODO: save css db
   };
 
-  const ModalBody = ({ css }) => {
+  const ModalBody = ({ css, setCss, link, setLink }) => {
     return (
       <>
         <StyleEditor
           defaultValue={css}
           onChange={(updatedCss) => setCss(updatedCss)}
         />
-        <button onClick={saveCss} style={{ float: 'right', margin: 5 }}>
-          save
-        </button>
+        <Box>
+          <Label htmlFor="link">Link</Label>
+          <input
+            id="link"
+            name="link"
+            type="url"
+            defaultValue={link}
+            onChange={(e) => setLink(e.target.value)}
+          />
+        </Box>
+
+        <Button
+          onClick={saveCss}
+          m={2}
+          backgroundColor="green"
+          style={{ float: 'right' }}
+        >
+          Save
+        </Button>
       </>
     );
   };
@@ -177,7 +229,16 @@ const EditableImage = ({ defaultCss, ...rest }) => {
       {css || ''}
       <a
         class="text-center"
-        onClick={() => handleModal(<ModalBody css={css} />)}
+        onClick={() =>
+          handleModal(
+            <ModalBody
+              css={css}
+              link={link}
+              setCss={setCss}
+              setLink={setLink}
+            />
+          )
+        }
       >
         <SponsorImage {...rest} editable border />
       </a>
@@ -187,18 +248,34 @@ const EditableImage = ({ defaultCss, ...rest }) => {
 
 const NewImage = () => {
   const [file, setFile] = useState();
-  const [imageUrl, setFImageUrl] = useState(false);
+  const [imageUrl, setImageUrl] = useState(false);
+  const [downloadUrl, setDownloadUrl] = useState(false);
   const onFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const image = event.target.files[0];
+    const imageRef = ref(getStorage(), `sponsors/${image.name}`);
+    uploadBytes(imageRef, image).then((snapshot) => {
+      console.log('Uploaded a blob or file!');
+      getDownloadURL(snapshot.ref).then((downloadURL) => {
+        console.log('File available at', downloadURL);
+        setDownloadUrl(downloadURL);
+        const list = collection(db, 'sponsors/main/list');
+        addDoc(list, {
+          image: downloadURL || '',
+          css: 'img { }',
+          link: ''
+        });
+      });
+    });
+    setFile(image);
   };
 
   useEffect(() => {
-    if (file) setFImageUrl(URL.createObjectURL(file));
+    if (file) setImageUrl(URL.createObjectURL(file));
   }, [file]);
 
   return (
     <>
-      {imageUrl && <EditableImage defaultCss={'img { }'} src={imageUrl} />}
+      {downloadUrl && <EditableImage src={downloadUrl} />}
       <div>
         <input type="file" accept="image/*" onChange={onFileChange} />
       </div>
@@ -257,14 +334,3 @@ const Sponsors = ({ editable = false }) => {
 };
 
 export default Sponsors;
-
-// <ReactScrollWheelHandler
-//   upHandler={(e) => console.log('scroll up')}
-//   downHandler={(e) => console.log('scroll down')}
-//   style={{
-//     display: 'inline'
-//   }}
-//   preventScroll
-// >
-//   <SponsorImage image={sponsor.image} />
-// </ReactScrollWheelHandler>
