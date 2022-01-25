@@ -1,0 +1,59 @@
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db } from '../../utils/firebase';
+import {
+  doc,
+  setDoc,
+  collection,
+  getDocs,
+  query,
+  addDoc
+} from 'firebase/firestore';
+import { SPONSORS_ORDER } from '../../constants';
+
+export const addNewSponsor = (image) => {
+  const imageRef = ref(getStorage(), `sponsors/${image.name}`);
+  return new Promise((resolve, reject) => {
+    uploadBytes(imageRef, image).then((snapshot) => {
+      console.log('Uploaded a blob or file!');
+      getDownloadURL(snapshot.ref).then((downloadURL) => {
+        console.log('File available at', downloadURL);
+        resolve(downloadURL);
+        // setDownloadUrl(downloadURL);
+        const list = collection(db, 'sponsors/main/list');
+        addDoc(list, {
+          image: downloadURL || '',
+          css: 'img { }',
+          link: ''
+        });
+      });
+    });
+  });
+};
+
+export const fetchSponsors = async () => {
+  const sponsors = [];
+  const sponsorsRef = collection(db, 'sponsors');
+  const docs = await getDocs(query(sponsorsRef));
+  docs.forEach((sponsorGroupDoc) => {
+    sponsors.push({ [sponsorGroupDoc.id]: [] });
+  });
+
+  for (const s of sponsors) {
+    const group = Object.keys(s)[0];
+    const groupRef = collection(db, 'sponsors', group, 'list');
+    const docs = await getDocs(query(groupRef));
+    docs.forEach((sponsorData) => {
+      s[group].push(sponsorData.data());
+    });
+  }
+  // TODO: order
+  return sponsors;
+};
+
+export const sortSponsors = (sponsors) => {
+  sponsors?.sort((a, b) => {
+    const keyA = Object.keys(a)[0];
+    const keyB = Object.keys(b)[0];
+    return SPONSORS_ORDER.indexOf(keyA) - SPONSORS_ORDER.indexOf(keyB);
+  });
+};
