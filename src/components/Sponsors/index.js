@@ -165,9 +165,9 @@ const Sponsors = ({ editable = false }) => {
     groupedSponsors[group].push(s);
   }
 
-  // sortSponsors(sponsors);
+  const sortedSponsors = sortSponsors(groupedSponsors);
 
-  const sponsorList = Object.keys(groupedSponsors)?.map((group) => {
+  const sponsorList = Object.keys(sortedSponsors)?.map((group) => {
     const list = groupedSponsors[group];
 
     if (!group) return null;
@@ -178,7 +178,7 @@ const Sponsors = ({ editable = false }) => {
           style={{ marginTop: 40, marginBottom: 40 }}
         >
           <h1 class="text-center h1-fourth-div-2">{t([group])}</h1>
-          {list.map((sponsor) =>
+          {list?.map((sponsor) =>
             editable ? (
               // <EditableImage defaultCss={sponsor.css} src={sponsor.image} />
               <EditableImage data={sponsor} onChange={forceUpdate} />

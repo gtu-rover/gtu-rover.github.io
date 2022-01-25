@@ -5,7 +5,7 @@ import { Box, Button } from 'rebass';
 import { Label, Input } from '@rebass/forms';
 import Style from 'style-it';
 import SponsorImage from './SponsorImage';
-import { setSponsor } from './utils';
+import { deleteSponsor, setSponsor } from './utils';
 import { useSnackbar } from 'react-simple-snackbar';
 
 const ModalBody = ({ data, onCssChange, onChange }) => {
@@ -49,7 +49,13 @@ const ModalBody = ({ data, onCssChange, onChange }) => {
         Save
       </Button>
       <Button
-        onClick={() => console.log(data.id)}
+        onClick={() => {
+          openSnackbar('Removing...', 15000);
+          deleteSponsor(data.id).then(() => {
+            openSnackbar('Removed');
+            onChange();
+          });
+        }}
         m={2}
         backgroundColor="red"
         style={{ float: 'right' }}

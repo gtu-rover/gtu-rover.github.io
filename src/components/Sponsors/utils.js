@@ -6,7 +6,8 @@ import {
   collection,
   getDocs,
   query,
-  addDoc
+  addDoc,
+  deleteDoc
 } from 'firebase/firestore';
 import { SPONSORS_ORDER } from '../../constants';
 
@@ -42,15 +43,19 @@ export const fetchSponsors = async () => {
 };
 
 export const sortSponsors = (sponsors) => {
-  sponsors?.sort((a, b) => {
-    const keyA = Object.keys(a)[0];
-    const keyB = Object.keys(b)[0];
-    return SPONSORS_ORDER.indexOf(keyA) - SPONSORS_ORDER.indexOf(keyB);
-  });
+  const orderTemplate = {};
+  SPONSORS_ORDER.forEach((s) => (orderTemplate[s] = null));
+  return Object.assign(orderTemplate, sponsors);
 };
 
 export const setSponsor = (data) => {
   return new Promise((resolve, reject) => {
     setDoc(doc(db, 'sponsors', data.id), data).then(() => resolve(data));
+  });
+};
+
+export const deleteSponsor = (id) => {
+  return new Promise((resolve, reject) => {
+    deleteDoc(doc(db, 'sponsors', id)).then(() => resolve());
   });
 };
