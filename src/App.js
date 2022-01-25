@@ -15,11 +15,22 @@ function App() {
       <ModalProvider>
         <BrowserRouter>
           <Routes>
+            <Route path="/">
+              <Route index element={<HomePage />} />
+              <Route path="about" element={<About />} />
+              <Route path="members" element={<Members />} />
+              <Route path="admin">
+                <Route index element={<Admin />} />
+                <Route path="members" element={<Members editable />} />
+              </Route>
+            </Route>
+          </Routes>
+          {/* <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<About />} />
             <Route path="/members" element={<Members />} />
             <Route path="/admin" element={<Admin />} />
-          </Routes>
+          </Routes> */}
         </BrowserRouter>
       </ModalProvider>
     </>

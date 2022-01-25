@@ -1,12 +1,13 @@
 import { SeperatorUp } from './seperators';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 const NavItem = ({ image, text, link }) => {
   return (
     <div class="mycol col-6 col-md-4">
-      <a href={link}>
+      <Link to={link}>
         <img class="first-div-icon" src={image} />
-      </a>
+      </Link>
       <a class="index-first-div-linked" href={link}>
         <h4 class="h3-first-div-2">{text}</h4>
       </a>
@@ -56,7 +57,7 @@ const Header = () => {
             <NavItem
               text={t('members')}
               image={'/images/icon/hexa7-min.png'}
-              link={'/members'}
+              link={'members'}
             />
             <NavItem
               text={t('sponsors')}
@@ -66,12 +67,12 @@ const Header = () => {
             <NavItem
               text={t('rover')}
               image={'/images/icon/hexa-rover.png'}
-              link={'/rover'}
+              link={'rover'}
             />
             <NavItem
               text={t('about')}
               image={'/images/icon/hexa10-min.png'}
-              link={'/about'}
+              link={'about'}
             />
             <NavItem
               text={t('contact')}

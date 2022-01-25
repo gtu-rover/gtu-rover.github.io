@@ -1,12 +1,15 @@
+import { Link } from 'react-router-dom';
 import { LanguageSwitch } from './LanguageSwitch';
 
 const Navbar = () => {
   return (
     <div>
       <nav class="navbar navbar-light fixed-top">
-        <a class="navbar-brand" href="/">
-          <img id="navbar-img1" src="/images/logo/logo.png" alt="" />
-        </a>
+        <Link to="/">
+          <div class="navbar-brand">
+            <img id="navbar-img1" src="/images/logo/logo.png" alt="" />
+          </div>
+        </Link>
 
         <div
           style={{
