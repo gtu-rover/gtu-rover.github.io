@@ -33,7 +33,7 @@
 /* Modal Header */
 .modal-header {
   padding: 2px 16px;
-  background-color: #dedede;
+  /* background-color: #dedede; */
   color: white;
 }
 

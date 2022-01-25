@@ -8,6 +8,7 @@ import HomePage from '.';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { db } from '../utils/firebase';
 import { GoogleAuthProvider } from 'firebase/auth';
+
 const provider = new GoogleAuthProvider();
 
 // const user = 'rover@gtu.edu.tr';

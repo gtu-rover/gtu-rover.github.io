@@ -652,23 +652,23 @@ a.socialIcon:hover,
 }
 
 .img-sponsor-div {
-  width: 16% !important;
+  width: 16%;
   margin: 15px 20px 20px;
 }
 
 .img-sponsor-div2 {
-  width: 16% !important;
+  width: 16%;
   margin: 15px 20px 20px;
 }
 
 @media (max-width: 575.98px) {
   .img-sponsor-div {
-    width: 24% !important;
+    width: 24%;
     margin: 15px 20px 20px;
   }
 
   .img-sponsor-div2 {
-    width: 24% !important;
+    width: 24%;
     margin: 15px 20px 20px;
   }
 
@@ -944,12 +944,12 @@ a.socialIcon:hover,
 
 @media (min-width: 576px) and (max-width: 767.98px) {
   .img-sponsor-div {
-    width: 25% !important;
+    width: 25%;
     margin: 15px 20px 20px;
   }
 
   .img-sponsor-div2 {
-    width: 25% !important;
+    width: 25%;
     margin: 15px 20px 20px;
   }
 
@@ -1136,12 +1136,12 @@ a.socialIcon:hover,
 
 @media (min-width: 768px) and (max-width: 991.98px) {
   .img-sponsor-div {
-    width: 30% !important;
+    width: 30%;
     margin: 15px 20px 20px;
   }
 
   .img-sponsor-div2 {
-    width: 30% !important;
+    width: 30%;
     margin: 15px 20px 20px;
   }
 

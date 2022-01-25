@@ -6,6 +6,7 @@ import SponsorImage from './SponsorImage';
 import { addNewSponsor, fetchSponsors, sortSponsors } from './utils';
 import { NewImage } from './NewImage';
 import { EditableImage } from './EditableImage';
+import { useForceUpdate } from '../../hooks/useForceUpdate';
 
 // const sponsors = [
 //   {
@@ -145,7 +146,7 @@ import { EditableImage } from './EditableImage';
 const Sponsors = ({ editable = false }) => {
   const { t } = useTranslation();
   const [sponsors, setSponsors] = useState([]);
-  console.log({ sponsors });
+  const [onForceUpdate, forceUpdate] = useForceUpdate();
 
   useEffect(() => {
     const getData = async () => {
@@ -153,13 +154,22 @@ const Sponsors = ({ editable = false }) => {
       setSponsors(sponsorsFromDb);
     };
     getData();
-  }, []);
+  }, [onForceUpdate]);
 
-  sortSponsors(sponsors);
+  const groupedSponsors = [];
+  for (const s of sponsors) {
+    const group = s.group;
+    if (!groupedSponsors[group]) {
+      groupedSponsors[group] = [];
+    }
+    groupedSponsors[group].push(s);
+  }
 
-  const sponsorList = sponsors?.map((s) => {
-    const key = Object.keys(s)[0];
-    const group = Object.values(s)[0];
+  // sortSponsors(sponsors);
+
+  const sponsorList = Object.keys(groupedSponsors)?.map((group) => {
+    const list = groupedSponsors[group];
+
     if (!group) return null;
     return (
       <>
@@ -167,10 +177,11 @@ const Sponsors = ({ editable = false }) => {
           class="container text-center"
           style={{ marginTop: 40, marginBottom: 40 }}
         >
-          <h1 class="text-center h1-fourth-div-2">{t([key])}</h1>
-          {group.map((sponsor) =>
+          <h1 class="text-center h1-fourth-div-2">{t([group])}</h1>
+          {list.map((sponsor) =>
             editable ? (
-              <EditableImage defaultCss={sponsor.css} src={sponsor.image} />
+              // <EditableImage defaultCss={sponsor.css} src={sponsor.image} />
+              <EditableImage data={sponsor} onChange={forceUpdate} />
             ) : (
               <a
                 class="text-center"
@@ -181,7 +192,14 @@ const Sponsors = ({ editable = false }) => {
               </a>
             )
           )}
-          {editable && <NewImage />}
+          {editable && (
+            <NewImage
+              defaults={{
+                group: group
+              }}
+              onNewImage={(img) => setSponsors([...sponsors, img])}
+            />
+          )}
         </div>
         <hr style={{ borderWidth: 2 }} />
       </>

@@ -5,67 +5,64 @@ import { Box, Button } from 'rebass';
 import { Label, Input } from '@rebass/forms';
 import Style from 'style-it';
 import SponsorImage from './SponsorImage';
+import { setSponsor } from './utils';
+import { useSnackbar } from 'react-simple-snackbar';
 
-export const EditableImage = ({ defaultCss = 'img { }', ...rest }) => {
-  let { handleModal } = React.useContext(ModalContext);
-  const [css, setCss] = useState(defaultCss);
-  const [link, setLink] = useState('');
-  const imageUrl = rest?.src;
+const ModalBody = ({ data, onCssChange, onChange }) => {
+  const [imageData, setImageData] = useState(data);
+  const [openSnackbar, closeSnackbar] = useSnackbar();
 
-  const saveCss = async () => {
-    console.log({ imageUrl });
-    console.log({ css });
-    console.log({ link });
-
-    // const list = collection(db, 'sponsors/main/list');
-    // TODO: setDoc
-    // addDoc(list, {
-    //   image: imageUrl || '',
-    //   css: css,
-    //   link: link
-    // });
-    // TODO: close modal
-
-    // const mainDoc = doc(db, 'sponsors', 'main');
-    // console.log({ mainDoc });
-    // const list = mainDoc.collection('list').get();
-    // console.log({ list });
-    // await setDoc(doc(db, 'sponsors', 'main'), {
-    //   name: 'Los Angeles',
-    //   state: 'CA',
-    //   country: 'USA'
-    // });
-  };
-
-  const ModalBody = ({ css, setCss, link, setLink }) => {
-    return (
-      <>
-        <StyleEditor
-          defaultValue={css}
-          onChange={(updatedCss) => setCss(updatedCss)}
+  return (
+    <>
+      <Label htmlFor="style-editor">Style Editor</Label>
+      <StyleEditor
+        id="style-editor"
+        defaultValue={imageData.css}
+        onChange={(updatedCss) => {
+          setImageData({ ...data, css: updatedCss });
+          onCssChange(updatedCss);
+        }}
+      />
+      <Box>
+        <Label htmlFor="link">Link</Label>
+        <Input
+          id="link"
+          name="link"
+          type="url"
+          defaultValue={imageData.link}
+          onChange={(e) => setImageData({ ...data, link: e.target.value })}
         />
-        <Box>
-          <Label htmlFor="link">Link</Label>
-          <input
-            id="link"
-            name="link"
-            type="url"
-            defaultValue={link}
-            onChange={(e) => setLink(e.target.value)}
-          />
-        </Box>
+      </Box>
+      <Button
+        onClick={() => {
+          openSnackbar('Saving image data...', 15000);
+          setSponsor(imageData).then(() => {
+            openSnackbar('Saved');
+            onChange();
+          });
+        }}
+        m={2}
+        mr={0}
+        backgroundColor="green"
+        style={{ float: 'right' }}
+      >
+        Save
+      </Button>
+      <Button
+        onClick={() => console.log(data.id)}
+        m={2}
+        backgroundColor="red"
+        style={{ float: 'right' }}
+      >
+        Delete
+      </Button>
+    </>
+  );
+};
 
-        <Button
-          onClick={saveCss}
-          m={2}
-          backgroundColor="green"
-          style={{ float: 'right' }}
-        >
-          Save
-        </Button>
-      </>
-    );
-  };
+export const EditableImage = ({ data, onChange }) => {
+  let { handleModal } = React.useContext(ModalContext);
+  const [css, setCss] = useState(data.css);
 
   return (
     <Style>
@@ -75,15 +72,14 @@ export const EditableImage = ({ defaultCss = 'img { }', ...rest }) => {
         onClick={() =>
           handleModal(
             <ModalBody
-              css={css}
-              link={link}
-              setCss={setCss}
-              setLink={setLink}
+              data={data}
+              onCssChange={(updatedCss) => setCss(updatedCss)}
+              onChange={onChange}
             />
           )
         }
       >
-        <SponsorImage {...rest} border />
+        <SponsorImage src={data.image} border />
       </a>
     </Style>
   );

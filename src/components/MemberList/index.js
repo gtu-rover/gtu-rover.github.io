@@ -80,6 +80,7 @@ const MemberList = ({ members, editable = false }) => {
                 {members.map((member) => (
                   <Member value={member} editable={editable} />
                 ))}
+                {/* {editable && <Member value={'+'} editable={editable} />} */}
               </div>
             </div>
           );

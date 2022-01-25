@@ -27,6 +27,7 @@
     "react-router-dom": "6",
     "react-scripts": "5.0.0",
     "react-scroll-wheel-handler": "^2.1.0",
+    "react-simple-snackbar": "^1.1.11",
     "react-style-editor": "^0.4.0",
     "rebass": "^4.0.7",
     "style-it": "^2.1.4",
