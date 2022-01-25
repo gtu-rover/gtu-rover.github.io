@@ -188,7 +188,7 @@ const Sponsors = ({ editable = false }) => {
                 target="_blank"
                 href={`${sponsor.link || '#'}`}
               >
-                <SponsorImage border src={sponsor.image} />
+                <SponsorImage src={sponsor.image} />
               </a>
             )
           )}
