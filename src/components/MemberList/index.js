@@ -1,6 +1,35 @@
+import { useRef, useState } from 'react';
+import ContentEditable from 'react-contenteditable';
 import { useTranslation } from 'react-i18next';
 
-const MemberList = ({ members }) => {
+const Member = ({ value, editable, pre = false }) => {
+  const [dirty, setDirty] = useState(false);
+  const text = useRef('');
+  text.current = value;
+
+  return (
+    <h3>
+      {pre}
+      <ContentEditable
+        html={text.current}
+        style={{ display: 'inline' }}
+        disabled={!editable}
+        onChange={(e) => {
+          text.current = e.target.value;
+          setDirty(true);
+        }}
+        onBlur={() => {
+          if (dirty) {
+            console.log(text.current);
+            // TODO: set on db
+          }
+        }}
+      />
+    </h3>
+  );
+};
+
+const MemberList = ({ members, editable = false }) => {
   const { t } = useTranslation();
 
   return (
@@ -24,7 +53,12 @@ const MemberList = ({ members }) => {
             {t('team advisor')}
           </h1>
           <h3>
-            {t('assistant professor')} {members.advisor}
+            {}
+            <Member
+              pre={t('assistant professor') + ' '}
+              value={members.advisor}
+              editable={editable}
+            />
           </h3>
         </div>
 
@@ -44,7 +78,7 @@ const MemberList = ({ members }) => {
               </h1>
               <div class="text-center">
                 {members.map((member) => (
-                  <h3>{member}</h3>
+                  <Member value={member} editable={editable} />
                 ))}
               </div>
             </div>
