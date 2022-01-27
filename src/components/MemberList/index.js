@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Button } from 'rebass';
 import { addNewMember, fetchMembers, setMember, sortMembers } from './utils';
 
+import { useSnackbar } from 'react-simple-snackbar';
+
 const Member = ({ data, editable }) => {
   const { t } = useTranslation();
   const dirty = useRef(false);
@@ -38,6 +40,7 @@ const Member = ({ data, editable }) => {
 const MemberList = ({ editable = false }) => {
   const { t } = useTranslation();
   const [members, setMembers] = useState([]);
+  const [openSnackbar, closeSnackbar] = useSnackbar();
 
   useEffect(() => {
     const getData = async () => {
@@ -92,11 +95,13 @@ const MemberList = ({ editable = false }) => {
                   <Button
                     sx={{ bg: '#07c' }}
                     onClick={() => {
+                      openSnackbar('Adding...');
                       addNewMember({
                         team: team,
-                        name: '+'
+                        name: '&nbsp;&nbsp;&nbsp;'
                       }).then((m) => {
                         setMembers([...members, m]);
+                        closeSnackbar();
                       });
                     }}
                   >

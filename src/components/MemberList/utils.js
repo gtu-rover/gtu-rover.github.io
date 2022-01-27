@@ -38,7 +38,8 @@ export const addNewMember = (defaults) => {
       team: defaults.team || 'unknown',
       name: defaults.name || 'name'
     };
-    const docRef = addDoc(collection(db, 'members'), newMember);
-    resolve({ ...newMember, id: docRef.id });
+    addDoc(collection(db, 'members'), newMember).then((docRef) => {
+      resolve({ ...newMember, id: docRef.id });
+    });
   });
 };
