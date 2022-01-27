@@ -5,9 +5,9 @@
 
 ## Admin Features
 
--[x] manage sponsors
--[x] manage members
--[ ] edit sponsorship document
+- [x] manage sponsors
+- [x] manage members
+- [ ] edit sponsorship document
 
 ### `yarn start`
 
