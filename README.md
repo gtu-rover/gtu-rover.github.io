@@ -1,7 +1,7 @@
 # GTU Rover Website
 
+- Admin Login: https://rover.gtu.edu.tr/admin
 - After every successful commit github actions deploys the app to https://website-52fbe.firebaseapp.com/, which can be used for testing purposes before deploying to github pages.
-- gtu-
 
 ## Admin Features
 
