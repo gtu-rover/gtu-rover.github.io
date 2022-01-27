@@ -7,6 +7,7 @@ import { addNewSponsor, fetchSponsors, sortSponsors } from './utils';
 import { NewImage } from './NewImage';
 import { EditableImage } from './EditableImage';
 import { useForceUpdate } from '../../hooks/useForceUpdate';
+import Style from 'style-it';
 
 // const sponsors = [
 //   {
@@ -183,13 +184,16 @@ const Sponsors = ({ editable = false }) => {
               // <EditableImage defaultCss={sponsor.css} src={sponsor.image} />
               <EditableImage data={sponsor} onChange={forceUpdate} />
             ) : (
-              <a
-                class="text-center"
-                target="_blank"
-                href={`${sponsor.link || '#'}`}
-              >
-                <SponsorImage src={sponsor.image} />
-              </a>
+              <Style>
+                {sponsor.css || ''}
+                <a
+                  class="text-center"
+                  target="_blank"
+                  href={`${sponsor.link || '#'}`}
+                >
+                  <SponsorImage src={sponsor.image} />
+                </a>
+              </Style>
             )
           )}
           {editable && (
