@@ -1,16 +1,19 @@
 import { SeperatorUp } from './seperators';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 
 const NavItem = ({ image, text, link }) => {
+  if (link.startsWith('#')) {
+    console.log('hash');
+  }
   return (
     <div class="mycol col-6 col-md-4">
-      <Link to={link}>
+      <HashLink to={link}>
         <img class="first-div-icon" src={image} />
-      </Link>
-      <a class="index-first-div-linked" href={link}>
-        <h4 class="h3-first-div-2">{text}</h4>
-      </a>
+        <a class="index-first-div-linked" href={link}>
+          <h4 class="h3-first-div-2">{text}</h4>
+        </a>
+      </HashLink>
     </div>
   );
 };
