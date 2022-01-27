@@ -1,27 +1,33 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
 import { useTranslation } from 'react-i18next';
+import { Button } from 'rebass';
+import { addNewMember, fetchMembers, setMember, sortMembers } from './utils';
 
-const Member = ({ value, editable, pre = false }) => {
-  const [dirty, setDirty] = useState(false);
+const Member = ({ data, editable }) => {
+  const { t } = useTranslation();
+  const dirty = useRef(false);
+  const pre = t(data.pre) + ' ';
   const text = useRef('');
-  text.current = value;
+  text.current = data.name;
 
   return (
     <h3>
-      {pre}
+      {pre}{' '}
       <ContentEditable
         html={text.current}
         style={{ display: 'inline' }}
         disabled={!editable}
         onChange={(e) => {
+          if (text.current !== e.target.value) {
+            dirty.current = true;
+          }
           text.current = e.target.value;
-          setDirty(true);
         }}
         onBlur={() => {
-          if (dirty) {
-            console.log(text.current);
-            // TODO: set on db
+          if (dirty.current) {
+            console.log({ ...data, name: text.current });
+            setMember({ ...data, name: text.current });
           }
         }}
       />
@@ -29,8 +35,28 @@ const Member = ({ value, editable, pre = false }) => {
   );
 };
 
-const MemberList = ({ members, editable = false }) => {
+const MemberList = ({ editable = false }) => {
   const { t } = useTranslation();
+  const [members, setMembers] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const membersFromDb = await fetchMembers();
+      setMembers(membersFromDb.filter((m) => m.name !== ''));
+    };
+    getData();
+  }, []);
+
+  const groupedMembers = [];
+  for (const m of members) {
+    const group = m.team;
+    if (!groupedMembers[group]) {
+      groupedMembers[group] = [];
+    }
+    groupedMembers[group].push(m);
+  }
+
+  const sortedMembers = sortMembers(groupedMembers);
 
   return (
     <section
@@ -45,26 +71,8 @@ const MemberList = ({ members, editable = false }) => {
         >
           {t('members')}
         </h1>
-        <div class="text-center " style={{ marginTop: 40 }}>
-          <h1
-            class="text-center font-windlesham"
-            style={{ marginBottom: 20, fontWeight: 900 }}
-          >
-            {t('team advisor')}
-          </h1>
-          <h3>
-            {}
-            <Member
-              pre={t('assistant professor') + ' '}
-              value={members.advisor}
-              editable={editable}
-            />
-          </h3>
-        </div>
-
-        {members.teams.map((team) => {
-          const teamKey = Object.keys(team)[0];
-          const members = team[teamKey];
+        {Object.keys(sortedMembers)?.map((team) => {
+          const teamMembers = sortedMembers[team];
           return (
             <div
               class="container text-center"
@@ -74,13 +82,27 @@ const MemberList = ({ members, editable = false }) => {
                 style={{ marginBottom: 20 }}
                 class="text-center font-windlesham"
               >
-                {t(`${teamKey} team`)}
+                {t(`${team} team`)}
               </h1>
               <div class="text-center">
-                {members.map((member) => (
-                  <Member value={member} editable={editable} />
+                {teamMembers?.map((member) => (
+                  <Member data={member} editable={editable} />
                 ))}
-                {/* {editable && <Member value={'+'} editable={editable} />} */}
+                {editable && (
+                  <Button
+                    sx={{ bg: '#07c' }}
+                    onClick={() => {
+                      addNewMember({
+                        team: team,
+                        name: '+'
+                      }).then((m) => {
+                        setMembers([...members, m]);
+                      });
+                    }}
+                  >
+                    + Add
+                  </Button>
+                )}
               </div>
             </div>
           );

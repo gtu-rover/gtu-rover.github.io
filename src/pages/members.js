@@ -52,13 +52,15 @@ const members = {
   ]
 };
 
-const Members = ({ editable = false }) => (
-  <>
-    <Navbar />
-    <MemberList members={members} editable={editable} />
-    <Footer Seperator={SeperatorDown} />
-    {editable && <AdminPill />}
-  </>
-);
+const Members = ({ editable = false }) => {
+  return (
+    <>
+      <Navbar />
+      <MemberList editable={editable} />
+      <Footer Seperator={SeperatorDown} />
+      {editable && <AdminPill />}
+    </>
+  );
+};
 
 export default Members;
