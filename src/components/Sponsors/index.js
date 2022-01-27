@@ -37,6 +37,7 @@ const Sponsors = ({ editable = false }) => {
     const list = groupedSponsors[group];
 
     if (!group) return null;
+    if (!editable && !list) return null; // show empty groups only in admin
     return (
       <>
         <div

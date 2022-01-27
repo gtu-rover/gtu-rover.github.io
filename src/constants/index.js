@@ -1,4 +1,5 @@
 export const SPONSORS_ORDER = [
+  'main',
   'platinum',
   'workshop',
   'gold',
