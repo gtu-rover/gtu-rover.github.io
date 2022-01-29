@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import Sponsors from '.';
-import { EditableImage } from './EditableImage';
-import { addNewSponsor, sortSponsors } from './utils';
+import React from 'react';
+import { addNewSponsor } from './utils';
 import { useSnackbar } from 'react-simple-snackbar';
 import './NewImage.css';
 import { ID } from '../../utils';
 
-export const NewImage = ({ onNewImage, defaults }) => {
+export const NewImage = ({ onNewImage, defaults, dbPath }) => {
   const [openSnackbar, closeSnackbar] = useSnackbar();
 
   const onFileChange = (event) => {
     const image = event.target.files[0];
     openSnackbar('Please wait: Image is uploading to database...', 20000);
-    addNewSponsor(image, defaults).then((s) => {
+    addNewSponsor(image, defaults, dbPath).then((s) => {
       onNewImage(s);
       closeSnackbar();
       openSnackbar('Image is uploaded', 1000);

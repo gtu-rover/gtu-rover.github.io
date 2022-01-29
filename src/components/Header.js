@@ -96,4 +96,36 @@ const Header = () => {
   );
 };
 
+export const HeaderBasic = ({ title, subtitle }) => {
+  return (
+    <section
+      id="first-div"
+      class="jumbotron jumbotron-fluid align-content-center"
+      style={{ marginBottom: 0 }}
+    >
+      <div class="container-fluid text-center">
+        <div class="row justify-content-between" id="first-div-first">
+          <div
+            class="col col-first-div text-left"
+            style={{ marginTop: 'auto' }}
+          >
+            <h1 class="animate__animated animate__fadeInRight animate__faster h1-first-div">
+              {title}
+            </h1>
+
+            <h1
+              class="animate__animated animate__fadeInRight  animate__fast font-sifonn h1-first-div-2 display-4"
+              style={{ fontSize: 55 }}
+            >
+              {subtitle}
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      <SeperatorUp />
+    </section>
+  );
+};
+
 export default Header;

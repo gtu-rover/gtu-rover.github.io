@@ -11,7 +11,7 @@ import {
 } from 'firebase/firestore';
 import { SPONSORS_ORDER } from '../../constants';
 
-export const addNewSponsor = (image, defaults) => {
+export const addNewSponsor = (image, defaults, dbPath) => {
   const imageRef = ref(getStorage(), `sponsors/${image.name}`);
   return new Promise((resolve, reject) => {
     uploadBytes(imageRef, image).then((snapshot) => {
@@ -25,16 +25,16 @@ export const addNewSponsor = (image, defaults) => {
           group: defaults.group || ''
         };
         resolve(newSponsor);
-        const list = collection(db, 'sponsors');
+        const list = collection(db, dbPath);
         addDoc(list, newSponsor);
       });
     });
   });
 };
 
-export const fetchSponsors = async () => {
+export const fetchSponsors = async (dbPath) => {
   const sponsors = [];
-  const sponsorsRef = collection(db, 'sponsors');
+  const sponsorsRef = collection(db, dbPath);
   const docs = await getDocs(query(sponsorsRef));
   docs.forEach((sponsor) => {
     sponsors.push({ ...sponsor.data(), id: sponsor.id });
@@ -48,14 +48,14 @@ export const sortSponsors = (sponsors) => {
   return Object.assign(orderTemplate, sponsors);
 };
 
-export const setSponsor = (data) => {
+export const setSponsor = (data, dbPath) => {
   return new Promise((resolve, reject) => {
-    setDoc(doc(db, 'sponsors', data.id), data).then(() => resolve(data));
+    setDoc(doc(db, dbPath, data.id), data).then(() => resolve(data));
   });
 };
 
-export const deleteSponsor = (id) => {
+export const deleteSponsor = (id, dbPath) => {
   return new Promise((resolve, reject) => {
-    deleteDoc(doc(db, 'sponsors', id)).then(() => resolve());
+    deleteDoc(doc(db, dbPath, id)).then(() => resolve());
   });
 };

@@ -3,20 +3,20 @@ import ReactScrollWheelHandler from 'react-scroll-wheel-handler';
 import { useTranslation } from 'react-i18next';
 import { db } from '../../utils/firebase';
 import SponsorImage from './SponsorImage';
-import { addNewSponsor, fetchSponsors, sortSponsors } from './utils';
+import { fetchSponsors, sortSponsors } from './utils';
 import { NewImage } from './NewImage';
 import { EditableImage } from './EditableImage';
 import { useForceUpdate } from '../../hooks/useForceUpdate';
 import Style from 'style-it';
 
-const Sponsors = ({ editable = false }) => {
+const Sponsors = ({ editable = false, dbPath = 'sponsors' }) => {
   const { t } = useTranslation();
   const [sponsors, setSponsors] = useState([]);
   const [onForceUpdate, forceUpdate] = useForceUpdate();
 
   useEffect(() => {
     const getData = async () => {
-      const sponsorsFromDb = await fetchSponsors();
+      const sponsorsFromDb = await fetchSponsors(dbPath);
       setSponsors(sponsorsFromDb);
     };
     getData();
@@ -48,7 +48,11 @@ const Sponsors = ({ editable = false }) => {
           {list?.map((sponsor) =>
             editable ? (
               // <EditableImage defaultCss={sponsor.css} src={sponsor.image} />
-              <EditableImage data={sponsor} onChange={forceUpdate} />
+              <EditableImage
+                data={sponsor}
+                onChange={forceUpdate}
+                dbPath={dbPath}
+              />
             ) : (
               <Style>
                 {sponsor.css || ''}
@@ -68,6 +72,7 @@ const Sponsors = ({ editable = false }) => {
                 group: group
               }}
               onNewImage={(img) => setSponsors([...sponsors, img])}
+              dbPath={dbPath}
             />
           )}
         </div>

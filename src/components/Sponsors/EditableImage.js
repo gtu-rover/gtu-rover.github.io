@@ -8,7 +8,7 @@ import SponsorImage from './SponsorImage';
 import { deleteSponsor, setSponsor } from './utils';
 import { useSnackbar } from 'react-simple-snackbar';
 
-const ModalBody = ({ data, onCssChange, onChange }) => {
+const ModalBody = ({ data, onCssChange, onChange, dbPath = 'sponsors' }) => {
   const [imageData, setImageData] = useState(data);
   const [openSnackbar, closeSnackbar] = useSnackbar();
 
@@ -36,7 +36,7 @@ const ModalBody = ({ data, onCssChange, onChange }) => {
       <Button
         onClick={() => {
           openSnackbar('Saving image data...', 15000);
-          setSponsor(imageData).then(() => {
+          setSponsor(imageData, dbPath).then(() => {
             openSnackbar('Saved');
             onChange();
           });
@@ -51,7 +51,7 @@ const ModalBody = ({ data, onCssChange, onChange }) => {
       <Button
         onClick={() => {
           openSnackbar('Removing...', 15000);
-          deleteSponsor(data.id).then(() => {
+          deleteSponsor(data.id, dbPath).then(() => {
             openSnackbar('Removed');
             onChange();
           });
@@ -66,7 +66,7 @@ const ModalBody = ({ data, onCssChange, onChange }) => {
   );
 };
 
-export const EditableImage = ({ data, onChange }) => {
+export const EditableImage = ({ data, onChange, dbPath }) => {
   let { handleModal } = React.useContext(ModalContext);
   const [css, setCss] = useState(data.css);
 
@@ -81,6 +81,7 @@ export const EditableImage = ({ data, onChange }) => {
               data={data}
               onCssChange={(updatedCss) => setCss(updatedCss)}
               onChange={onChange}
+              dbPath={dbPath}
             />
           )
         }

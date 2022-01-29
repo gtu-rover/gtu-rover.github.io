@@ -2,50 +2,64 @@ import { useEffect, useRef, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'rebass';
-import { addNewMember, fetchMembers, setMember, sortMembers } from './utils';
+import {
+  addNewMember,
+  deleteMember,
+  fetchMembers,
+  setMember,
+  sortMembers
+} from './utils';
 
 import { useSnackbar } from 'react-simple-snackbar';
+import { Input } from '@rebass/forms';
 
-const Member = ({ data, editable }) => {
+const Member = ({ data, editable, dbPath }) => {
   const { t } = useTranslation();
   const dirty = useRef(false);
   const pre = t(data.pre) + ' ';
-  const text = useRef('');
-  text.current = data.name;
+  const [value, setValue] = useState(data.name);
+  const [hide, setHide] = useState(false);
 
-  return (
-    <h3>
-      {pre}{' '}
-      <ContentEditable
-        html={text.current}
-        style={{ display: 'inline' }}
-        disabled={!editable}
+  return editable ? (
+    !hide && (
+      <Input
+        style={{ width: 300, margin: 'auto' }}
+        defaultValue={value}
         onChange={(e) => {
-          if (text.current !== e.target.value) {
+          if (value !== e.target.value) {
             dirty.current = true;
           }
-          text.current = e.target.value;
+          setValue(e.target.value);
         }}
         onBlur={() => {
           if (dirty.current) {
-            console.log({ ...data, name: text.current });
-            setMember({ ...data, name: text.current });
+            console.log({ ...data, name: value });
+            if (value === '') {
+              deleteMember(data.id, dbPath);
+              setHide(true);
+              return;
+            }
+            setMember({ ...data, name: value }, dbPath);
           }
         }}
       />
+    )
+  ) : (
+    <h3>
+      {pre} {data.name}
     </h3>
   );
 };
 
-const MemberList = ({ editable = false }) => {
+const MemberList = ({ editable = false, dbPath = 'members' }) => {
   const { t } = useTranslation();
   const [members, setMembers] = useState([]);
   const [openSnackbar, closeSnackbar] = useSnackbar();
 
   useEffect(() => {
     const getData = async () => {
-      const membersFromDb = await fetchMembers();
-      setMembers(membersFromDb.filter((m) => m.name !== ''));
+      const membersFromDb = await fetchMembers(dbPath);
+      setMembers(membersFromDb);
     };
     getData();
   }, []);
@@ -89,17 +103,20 @@ const MemberList = ({ editable = false }) => {
               </h1>
               <div class="text-center">
                 {teamMembers?.map((member) => (
-                  <Member data={member} editable={editable} />
+                  <Member data={member} editable={editable} dbPath={dbPath} />
                 ))}
                 {editable && (
                   <Button
                     sx={{ bg: '#07c' }}
                     onClick={() => {
                       openSnackbar('Adding...');
-                      addNewMember({
-                        team: team,
-                        name: '&nbsp;&nbsp;&nbsp;'
-                      }).then((m) => {
+                      addNewMember(
+                        {
+                          team: team,
+                          name: ' '
+                        },
+                        dbPath
+                      ).then((m) => {
                         setMembers([...members, m]);
                         closeSnackbar();
                       });

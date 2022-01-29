@@ -10,9 +10,9 @@ import {
 } from 'firebase/firestore';
 import { MEMBERS_ORDER } from '../../constants';
 
-export const fetchMembers = async () => {
+export const fetchMembers = async (dbPath) => {
   const members = [];
-  const membersRef = collection(db, 'members');
+  const membersRef = collection(db, dbPath);
   const docs = await getDocs(query(membersRef));
   docs.forEach((member) => {
     members.push({ ...member.data(), id: member.id });
@@ -26,20 +26,26 @@ export const sortMembers = (members) => {
   return Object.assign(orderTemplate, members);
 };
 
-export const setMember = (data) => {
+export const setMember = (data, dbPath) => {
   return new Promise((resolve, reject) => {
-    setDoc(doc(db, 'members', data.id), data).then(() => resolve(data));
+    setDoc(doc(db, dbPath, data.id), data).then(() => resolve(data));
   });
 };
 
-export const addNewMember = (defaults) => {
+export const addNewMember = (defaults, dbPath) => {
   return new Promise((resolve, reject) => {
     const newMember = {
       team: defaults.team || 'unknown',
       name: defaults.name || 'name'
     };
-    addDoc(collection(db, 'members'), newMember).then((docRef) => {
+    addDoc(collection(db, dbPath), newMember).then((docRef) => {
       resolve({ ...newMember, id: docRef.id });
     });
+  });
+};
+
+export const deleteMember = (id, dbPath) => {
+  return new Promise((resolve, reject) => {
+    deleteDoc(doc(db, dbPath, id)).then(() => resolve());
   });
 };
