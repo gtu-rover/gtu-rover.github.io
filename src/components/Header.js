@@ -68,9 +68,9 @@ const Header = () => {
               link={'#sponsors'}
             />
             <NavItem
-              text={t('rover')}
+              text={t('ERC 2021')}
               image={'/images/icon/hexa-rover.png'}
-              link={'rover'}
+              link={'erc2021'}
             />
             <NavItem
               text={t('about')}
