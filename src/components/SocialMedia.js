@@ -1,5 +1,5 @@
-import { useLayoutEffect, useState, useRef, useEffect } from 'react';
-import { SeperatorDown, SeperatorUp, SeperatorUpWhite } from './seperators';
+import { useLayoutEffect, useRef, useEffect } from 'react';
+import { SeperatorDown, SeperatorUpWhite } from './seperators';
 import { useTranslation } from 'react-i18next';
 import IconButton from './Button/iconButton';
 

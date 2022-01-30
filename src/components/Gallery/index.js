@@ -136,7 +136,6 @@ const Gallery = () => {
                   processedImages.map((image) => {
                     const { src, width, height, left, top, originalData } =
                       image;
-                    console.log(image);
                     return (
                       <LightgalleryItem group="any" src={src}>
                         <div

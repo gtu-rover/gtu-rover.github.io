@@ -1,20 +1,15 @@
-import Cards from '../components/Cards';
 import Footer from '../components/Footer';
 import { HeaderBasic } from '../components/Header';
 import Navbar from '../components/Navbar';
 import { AdminPill } from '../components/Pill';
-import SocialMedia from '../components/SocialMedia';
 import Sponsors from '../components/Sponsors';
 import { useTranslation } from 'react-i18next';
 import Gallery from '../components/Gallery';
 import {
   SeperatorDown,
-  SeperatorDownWhite,
-  SeperatorUp,
   SeperatorUpWhite
 } from '../components/seperators';
 import VentureSpecs from '../components/RoverSpecs/venture';
-import Members from './members';
 import MemberList from '../components/MemberList';
 
 const Erc21 = ({ editable = false }) => {

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import ContentEditable from 'react-contenteditable';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'rebass';
 import {

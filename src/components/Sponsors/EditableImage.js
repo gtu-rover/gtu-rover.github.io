@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { ModalContext } from '../Modal/modalContext';
 import StyleEditor from 'react-style-editor';
 import { Box, Button } from 'rebass';

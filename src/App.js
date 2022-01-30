@@ -12,7 +12,6 @@ import Erc21 from './pages/erc2021';
 
 function App() {
   return (
-    // TODO: react router
     <>
       <SnackbarProvider>
         <ModalProvider>

@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import ReactScrollWheelHandler from 'react-scroll-wheel-handler';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { db } from '../../utils/firebase';
 import SponsorImage from './SponsorImage';
