@@ -1,21 +1,13 @@
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signInWithPopup
-} from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import HomePage from '.';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { db } from '../utils/firebase';
-import { GoogleAuthProvider } from 'firebase/auth';
+import { auth } from '../utils/firebase';
 import { Box, Button, Flex } from 'rebass';
 import { Input, Label } from '@rebass/forms';
 import { useSnackbar } from 'react-simple-snackbar';
 
-const provider = new GoogleAuthProvider();
-
 const Admin = () => {
-  const auth = getAuth();
   const [email, setEmail] = useState('rover@gtu.edu.tr');
   const [pass, setPass] = useState('');
   const [tryLogin, setTryLogin] = useState(true);
