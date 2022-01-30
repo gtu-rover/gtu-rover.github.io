@@ -1,13 +1,12 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import HomePage from '.';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../utils/firebase';
 import { Box, Button, Flex } from 'rebass';
 import { Input, Label } from '@rebass/forms';
 import { useSnackbar } from 'react-simple-snackbar';
 
-const Admin = () => {
+const withLogin = (WrappedComponent) => (props) => {
   const [email, setEmail] = useState('rover@gtu.edu.tr');
   const [pass, setPass] = useState('');
   const [tryLogin, setTryLogin] = useState(true);
@@ -34,7 +33,7 @@ const Admin = () => {
   return (
     <>
       {user ? (
-        <HomePage editable />
+        <WrappedComponent editable {...props} />
       ) : (
         !tryLogin && (
           <>
@@ -84,4 +83,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default withLogin;
