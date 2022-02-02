@@ -1,25 +1,46 @@
 import { SeperatorUp } from './seperators';
 import { useTranslation } from 'react-i18next';
 import { HashLink } from 'react-router-hash-link';
+import { getDoc, doc } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { db } from '../utils/firebase';
 
-const NavItem = ({ image, text, link }) => {
+const NavItem = ({ image, text, link, external = false }) => {
   if (link.startsWith('#')) {
     console.log('hash');
   }
+  const Link = ({ to, ...rest }) =>
+    external ? (
+      <a target="_blank" href={to} {...rest} />
+    ) : (
+      <HashLink to={to} {...rest} />
+    );
+
   return (
     <div class="mycol col-6 col-md-4">
-      <HashLink to={link}>
+      <Link to={link}>
         <img class="first-div-icon" src={image} />
         <a class="index-first-div-linked" href={link}>
           <h4 class="h3-first-div-2">{text}</h4>
         </a>
-      </HashLink>
+      </Link>
     </div>
   );
 };
 
 const Header = () => {
   const { t } = useTranslation();
+  const [sponsorshipFile, setSponsorshipFile] = useState({});
+
+  useEffect(() => {
+    const getData = async () => {
+      const documentsRef = doc(db, 'documents', 'sponsorshipFile');
+      const docSnap = await getDoc(documentsRef);
+      setSponsorshipFile(docSnap.data());
+    };
+    getData();
+  }, []);
+
   return (
     <section
       id="first-div"
@@ -85,7 +106,8 @@ const Header = () => {
             <NavItem
               text={t('support_us')}
               image={'/images/icon/hexa12-min.png'}
-              link={'/pdf/GTU Rover Sponsorluk Dosyası.pdf'}
+              link={sponsorshipFile.link || ''}
+              external
             />
           </div>
         </div>
