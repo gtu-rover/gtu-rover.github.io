@@ -1,7 +1,9 @@
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { SeperatorDownWhite } from './seperators';
 
 const Footer = ({ Seperator = SeperatorDownWhite }) => {
+  const { t } = useTranslation();
+
   return (
     <section
       id="contact"
