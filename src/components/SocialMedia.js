@@ -32,7 +32,6 @@ const SocialMedia = ({ editable }) => {
       <SeperatorDown />
       <div class="row-second-div row">
         <div class="col-lg-3 offset-lg-3" style={{ paddingRight: 0 }}>
-          <script src="https://snapwidget.com/js/snapwidget.js"></script>
           <a
             href="https://www.instagram.com/gturover/"
             target="_blank"
@@ -42,7 +41,7 @@ const SocialMedia = ({ editable }) => {
             <iframe
               id="snappwidget-insta"
               ref={instaWidget}
-              src="https://snapwidget.com/embed/955104"
+              src="https://snapwidget.com/embed/990616"
               class="snapwidget-widget"
               allowtransparency="true"
               frameborder="0"
