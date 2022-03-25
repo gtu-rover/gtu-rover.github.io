@@ -9,7 +9,7 @@ import Sponsors from '../components/Sponsors';
 const HomePage = ({ editable = false }) => (
   <>
     <Navbar />
-    <Header />
+    <Header editable={editable} />
     <Cards />
     <SocialMedia />
     <Sponsors editable={editable} />

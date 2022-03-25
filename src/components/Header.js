@@ -4,8 +4,12 @@ import { HashLink } from 'react-router-hash-link';
 import { getDoc, doc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { db } from '../utils/firebase';
+import { FileDrop } from 'react-file-drop';
+import './Header.css';
+import { updateSponsorhipFile } from './utils';
+import { useSnackbar } from 'react-simple-snackbar';
 
-const NavItem = ({ image, text, link, external = false }) => {
+const NavItem = ({ children, image, text, link, external = false }) => {
   if (link.startsWith('#')) {
     console.log('hash');
   }
@@ -22,15 +26,17 @@ const NavItem = ({ image, text, link, external = false }) => {
         <img class="first-div-icon" src={image} />
         <a class="index-first-div-linked" href={link}>
           <h4 class="h3-first-div-2">{text}</h4>
+          {children}
         </a>
       </Link>
     </div>
   );
 };
 
-const Header = () => {
+const Header = ({ editable }) => {
   const { t } = useTranslation();
   const [sponsorshipFile, setSponsorshipFile] = useState({});
+  const [openSnackbar, closeSnackbar] = useSnackbar();
 
   useEffect(() => {
     const getData = async () => {
@@ -103,12 +109,31 @@ const Header = () => {
               image={'/images/icon/hexa9-min.png'}
               link={'#contact'}
             />
-            <NavItem
-              text={t('support_us')}
-              image={'/images/icon/hexa12-min.png'}
-              link={sponsorshipFile.link || ''}
-              external
-            />
+            {editable ? (
+              <NavItem
+                text={t('support_us')}
+                image={'/images/icon/hexa12-min.png'}
+                link={sponsorshipFile.link || ''}
+                external
+              >
+                <FileDrop
+                  onDrop={(files, event) => {
+                    openSnackbar('Uploading...');
+                    updateSponsorhipFile(files[0]).then((url) => {
+                      setSponsorshipFile({ link: url });
+                      openSnackbar('Sponsorship file updated!');
+                    });
+                  }}
+                ></FileDrop>
+              </NavItem>
+            ) : (
+              <NavItem
+                text={t('support_us')}
+                image={'/images/icon/hexa12-min.png'}
+                link={sponsorshipFile.link || ''}
+                external
+              />
+            )}
           </div>
         </div>
       </div>
