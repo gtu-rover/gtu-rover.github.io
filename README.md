@@ -7,7 +7,7 @@
 
 - [x] manage sponsors
 - [x] manage members
-- [ ] edit sponsorship document
+- [x] edit sponsorship document (drag & drop file to 'Our Sponsors' nav link in admin mode)
 
 ### `yarn start`
 
