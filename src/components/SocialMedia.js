@@ -1,7 +1,7 @@
-import { useLayoutEffect, useRef, useEffect } from "react";
-import { SeperatorDown, SeperatorUpWhite } from "./seperators";
-import { useTranslation } from "react-i18next";
-import IconButton from "./Button/iconButton";
+import { useLayoutEffect, useRef, useEffect } from 'react';
+import { SeperatorDown, SeperatorUpWhite } from './seperators';
+import { useTranslation } from 'react-i18next';
+import IconButton from './Button/iconButton';
 
 const SocialMedia = ({ editable }) => {
   const instaWidget = useRef(null);
@@ -19,8 +19,8 @@ const SocialMedia = ({ editable }) => {
   }, [instaWidget]);
 
   useLayoutEffect(() => {
-    window.addEventListener("resize", updateWidgetHeight);
-    return () => window.removeEventListener("resize", updateWidgetHeight);
+    window.addEventListener('resize', updateWidgetHeight);
+    return () => window.removeEventListener('resize', updateWidgetHeight);
   }, []);
 
   return (
@@ -47,9 +47,9 @@ const SocialMedia = ({ editable }) => {
               frameborder="0"
               scrolling="no"
               style={{
-                border: "none",
-                overflow: "hidden",
-                width: "100%",
+                border: 'none',
+                overflow: 'hidden',
+                width: '100%',
               }}
             ></iframe>
           </a>
@@ -59,7 +59,7 @@ const SocialMedia = ({ editable }) => {
           style={{ paddingRight: 0 }}
         >
           <h1 class="font-sifonn h1-second-div" style={{ fontSize: 35 }}>
-            {t("follow us")}
+            {t('follow us')}
           </h1>
           <div class="social-network-div">
             <ul class="social-network social-circle">
@@ -127,10 +127,10 @@ const SocialMedia = ({ editable }) => {
           </div>
           <div class="btn-div">
             <IconButton
-              faIcon={"fa-user"}
+              faIcon={'fa-user'}
               link="https://docs.google.com/forms/d/e/1FAIpQLSdxwDM-VSIz-uqmpWr-eqho5g_Hmrk0206mP1YykJ0qHEDTnQ/viewform?usp=sf_link"
             >
-              {t("join us")}
+              {t('join us')}
             </IconButton>
           </div>
         </div>
