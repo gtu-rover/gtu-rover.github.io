@@ -14,7 +14,7 @@ const Footer = ({ Seperator = SeperatorDownWhite }) => {
       <div class="container-fluid text-center last-div-container-fluid">
         <div class="container-last-div container">
           <hr class="contact-border" />
-          <h1 class="h1-last-div">{t('contact').toUpperCase()}</h1>
+          <h1 class="h1-last-div">{t('contact2').toUpperCase()}</h1>
           <hr style={{ height: 1, backgroundColor: 'rgb(151,103,223)' }} />
           <div
             class="row-last-div row justify-content-start"
