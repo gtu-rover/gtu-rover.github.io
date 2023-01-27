@@ -152,7 +152,9 @@ const SocialMedia = ({ editable = false }) => {
           <div class="btn-div">
             <IconButton
               faIcon={'fa-user'}
+
               link={joinLink.link}
+
             >
               {t('join us')}
             </IconButton>
