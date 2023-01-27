@@ -1,0 +1,15 @@
+on:
+  push:
+    branches: [ "react" ]
+
+env:
+  CI: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - run: git remote set-url origin https://${{secrets.GH_TOKEN}}@github.com/${{secrets.GH_USERNAME}}/${{secrets.GH_REPO_NAME}}
+    - run: yarn install
+    - run: yarn run deploy
