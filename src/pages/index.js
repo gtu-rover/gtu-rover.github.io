@@ -11,7 +11,7 @@ const HomePage = ({ editable = false }) => (
     <Navbar />
     <Header editable={editable} />
     <Cards />
-    <SocialMedia />
+    <SocialMedia editable={editable} />
     <Sponsors editable={editable} />
     <Footer />
     {editable && <AdminPill />}

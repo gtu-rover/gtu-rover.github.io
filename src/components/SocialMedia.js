@@ -1,9 +1,13 @@
-import { useLayoutEffect, useRef, useEffect } from 'react';
+import { useLayoutEffect, useRef, useEffect, useState, } from 'react';
 import { SeperatorDown, SeperatorUpWhite } from './seperators';
 import { useTranslation } from 'react-i18next';
 import IconButton from './Button/iconButton';
+import { Input, Label } from '@rebass/forms';
+import { Button } from 'rebass';
+import { getDoc, doc, setDoc } from 'firebase/firestore';
+import { db } from '../utils/firebase';
 
-const SocialMedia = ({ editable }) => {
+const SocialMedia = ({ editable = false }) => {
   const instaWidget = useRef(null);
   const { t } = useTranslation();
 
@@ -22,6 +26,26 @@ const SocialMedia = ({ editable }) => {
     window.addEventListener('resize', updateWidgetHeight);
     return () => window.removeEventListener('resize', updateWidgetHeight);
   }, []);
+
+  const [joinLink, setjoinfile] = useState({});
+
+  useEffect(() => {
+    const getData = async () => {
+      const documentsRef = doc(db, 'links', 'joinLink');
+      const docSnap = await getDoc(documentsRef);
+      setjoinfile(docSnap.data());
+    };
+    getData();
+  }, []);
+
+  const [text, setText] = useState("");
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const ref = doc(db, 'links', 'joinLink');
+    setDoc(ref, { link: text });
+
+  };
 
   return (
     <section
@@ -128,10 +152,22 @@ const SocialMedia = ({ editable }) => {
           <div class="btn-div">
             <IconButton
               faIcon={'fa-user'}
-              link="https://docs.google.com/forms/d/e/1FAIpQLSdxwDM-VSIz-uqmpWr-eqho5g_Hmrk0206mP1YykJ0qHEDTnQ/viewform?usp=sf_link"
+              link={joinLink.link}
             >
               {t('join us')}
             </IconButton>
+            {editable && (
+              <form onSubmit={handleSubmit}>
+                <Label>
+                  <Input
+                    placeholder="Enter Form Link"
+                    class="form-inp"
+                    type='text' value={text}
+                    onChange={(e) => setText(e.target.value)}></Input>
+                </Label>
+                <Button backgroundColor="red" type='submit'>submit</Button>
+              </form>
+            )}
           </div>
         </div>
       </div>
