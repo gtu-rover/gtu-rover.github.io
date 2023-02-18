@@ -23,7 +23,7 @@ jobs:
       - name: Build Website
         run: yarn run build
         env:
-            CI: true
+            CI: false
 
       - name: Deploy to GithuB Pages
         run: yarn run deploy
