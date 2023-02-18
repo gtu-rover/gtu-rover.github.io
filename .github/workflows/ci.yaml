@@ -25,13 +25,15 @@ jobs:
           repository: gtu-rover/gtu-rover.github.io
           token: ${{ secrets.ACCESS_TOKEN }}
 
-      - name: Install Packages
+      - name: Install Packages 🔧
         run: yarn install --frozen-lockfile
 
-      - name: Build Website
+      - name: Build Website 🏗️
         run: yarn run build
 
-      - name: Deploy to Github Pages
-        run: yarn run deploy
-        env:
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Deploy to GH Pages 🚀
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+          publish_branch: main
