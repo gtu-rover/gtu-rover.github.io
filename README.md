@@ -27,4 +27,4 @@ Your app is ready to be deployed!
 
 ### `yarn deploy`
 
-Builds and deploys the app to github pages. (gh-pages branch)
+Builds and deploys the app to github pages.
