@@ -6,8 +6,9 @@ import { Input, Label } from '@rebass/forms';
 import { Button } from 'rebass';
 import { getDoc, doc, setDoc } from 'firebase/firestore';
 import { db } from '../utils/firebase';
+import { useSnackbar } from 'react-simple-snackbar';
 
-const SocialMedia = ({ editable = false }) => {
+const SocialMedia = ({ onChange, editable = false }) => {
   const instaWidget = useRef(null);
   const { t } = useTranslation();
 
@@ -28,6 +29,7 @@ const SocialMedia = ({ editable = false }) => {
   }, []);
 
   const [joinLink, setjoinfile] = useState({});
+  const [openSnackbar, closeSnackbar] = useSnackbar();
 
   useEffect(() => {
     const getData = async () => {
@@ -43,8 +45,11 @@ const SocialMedia = ({ editable = false }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     const ref = doc(db, 'links', 'joinLink');
-    setDoc(ref, { link: text });
-
+    openSnackbar('Saving Link...', 15000);
+    setDoc(ref, { link: text }).then(() => {
+      openSnackbar('Link Saved');
+      onChange();
+    });
   };
 
   return (
