@@ -34,7 +34,9 @@ const About = () => {
           >
             {t('team tasks')}
           </p>
-
+          <p>
+            HELLO!
+          </p>
           <TeamDescription>
             <TeamDescription.Title image="/images/icon/Software.png">
               {t('software team')}
