@@ -20,6 +20,11 @@ jobs:
         with:
           node-version: 18.x
 
+      - uses: actions/checkout@v4  
+        with:
+          repository: gtu-rover/gtu-rover.github.io
+          token: ${{ secrets.ACCESS_TOKEN }}
+
       - name: Install Packages
         run: yarn install --frozen-lockfile
 
@@ -28,5 +33,3 @@ jobs:
 
       - name: Deploy to Github Pages
         run: yarn run deploy
-        env: 
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
