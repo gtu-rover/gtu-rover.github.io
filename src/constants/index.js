@@ -9,8 +9,8 @@ export const SPONSORS_ORDER = [
 ];
 export const MEMBERS_ORDER = [
   'advisor',
-  'electronics',
   'software',
+  'electronics',
   'mechanical',
   'science',
   'sponsorship'
