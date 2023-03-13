@@ -70,7 +70,7 @@ const SocialMedia = ({ onChange, editable = false }) => {
             <iframe
               id="snappwidget-insta"
               ref={instaWidget}
-              src="https://snapwidget.com/embed/990616"
+              src="https://snapwidget.com/embed/1027644"
               class="snapwidget-widget"
               allowtransparency="true"
               frameborder="0"
