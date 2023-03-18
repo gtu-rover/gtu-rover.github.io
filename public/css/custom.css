@@ -182,8 +182,7 @@ a:active {
 }
 
 #first-div {
-  background: url(../images/background/background13.png) center center / cover
-    no-repeat;
+  background: url(../images/background/background13.png) center center / cover no-repeat;
   height: 1000px;
   color: white;
   margin-bottom: 0;
@@ -195,8 +194,7 @@ a:active {
 }
 
 #second-div {
-  background: url(../images/background/background15.png) center center / cover
-    no-repeat;
+  background: url(../images/background/background15.png) center center / cover no-repeat;
   height: auto;
   color: white;
   margin-bottom: 50px;
@@ -382,7 +380,7 @@ a:active {
 }
 
 .h2-last-div {
-  color: rgb(198, 124, 222);
+  color: rgb(255, 255, 255);
 }
 
 .p-second-div {
@@ -1512,7 +1510,7 @@ a.socialIcon:hover,
   top: 0;
 }
 
-.toggle-label input[type='checkbox'] + .back {
+.toggle-label input[type='checkbox']+.back {
   position: absolute;
   width: 100%;
   height: 34px;
@@ -1523,12 +1521,12 @@ a.socialIcon:hover,
   transition: background 150ms linear;
 }
 
-.toggle-label input[type='checkbox']:checked + .back {
+.toggle-label input[type='checkbox']:checked+.back {
   border: 3px solid #493262;
   cursor: pointer;
 }
 
-.toggle-label input[type='checkbox'] + .back .toggle {
+.toggle-label input[type='checkbox']+.back .toggle {
   display: block;
   position: absolute;
   content: ' ';
@@ -1540,7 +1538,7 @@ a.socialIcon:hover,
   border-radius: 50px;
 }
 
-.toggle-label input[type='checkbox']:checked + .back .toggle {
+.toggle-label input[type='checkbox']:checked+.back .toggle {
   margin-left: 50px;
 }
 
@@ -1562,16 +1560,16 @@ a.socialIcon:hover,
   right: 0px;
 }
 
-.toggle-label input[type='checkbox']:checked + .back .label.on {
+.toggle-label input[type='checkbox']:checked+.back .label.on {
   color: #ddd;
 }
 
-.toggle-label input[type='checkbox'] + .back .label.off {
+.toggle-label input[type='checkbox']+.back .label.off {
   color: #ddd;
   cursor: pointer;
 }
 
-.toggle-label input[type='checkbox']:checked + .back .label.off {
+.toggle-label input[type='checkbox']:checked+.back .label.off {
   color: #ddd;
 }
 
@@ -1583,10 +1581,12 @@ a.socialIcon:hover,
   width: 100%;
   z-index: 1;
 }
+
 .linkwrap iframe {
   z-index: 2;
 }
-.linkwrap:hover + iframe,
+
+.linkwrap:hover+iframe,
 iframe:hover {
   display: block;
 }
