@@ -32,12 +32,17 @@ const Footer = ({ Seperator = SeperatorDownWhite }) => {
                 <p class="p-last-div">{t('adress')}</p>
               </a>
             </div>
-            <div class="col-lg-6 col-sm-12">
-              <img
-                class="border-img img-first-div"
-                src="/images/atolye-yeni.jpg"
-                width="auto"
-                height="150px"
+            <div
+              class="col-lg-6 col-sm-12"
+            >
+              <iframe
+                style={{
+                  width: "90%",
+                  height: "250px",
+                  marginInline: "auto",
+                  borderRadius: "15px"
+                }}
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d904.295752149527!2d29.36477799953052!3d40.81119170697075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cadf43c7ab52d5%3A0x5b0b8f71cad0e0eb!2sGTU%20Rover%20At%C3%B6lyesi!5e0!3m2!1str!2str!4v1679163899993!5m2!1str!2str"
               />
             </div>
           </div>
